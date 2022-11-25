@@ -1,0 +1,1 @@
+Este folder contem as imagens processadas

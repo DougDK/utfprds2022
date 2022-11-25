@@ -12,4 +12,10 @@ def reconstrucaoSinal():
     sinal = request.files['sinal']
     sinal.save('./sinais/{}'.format(sinal.filename))
     teste_cgne(sinal.filename)
-    return send_file(sinal, mimetype = sinal.content_type)
+    return ""
+
+
+@app.route("/sinal", methods=['GET'])
+def sinal():
+    processed = open('./imagensprocessadas/{}.jpeg'.format(request.json['nome']),'rb')
+    return send_file(processed, mimetype = "image/jpeg")

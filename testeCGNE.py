@@ -1,8 +1,8 @@
 import numpy as np
 import math
-from matplotlib import pyplot as plt
 from numpy import genfromtxt
 import time
+from PIL import Image
 
 
 def teste_cgne(nome_sinal):
@@ -12,7 +12,7 @@ def teste_cgne(nome_sinal):
 
     sinal_g = genfromtxt('sinais/{}'.format(nome_sinal), delimiter=',')
 
-    matriz_h = genfromtxt('H-2.csv', delimiter=',')
+    matriz_h = genfromtxt('modelos/H-2.csv', delimiter=',')
 
     print(sinal_g.shape)
     fim = time.time()
@@ -80,10 +80,9 @@ def teste_cgne(nome_sinal):
     fim = time.time()
     print('tudo levou', fim - iniciodeverdade)
 
-    print("pronto")
     f_imagem = np.reshape(f, (30, 30))
-    plt.gray()
-    plt.imshow(f_imagem)
-    plt.show()
+    im = Image.fromarray(f_imagem)
+    im = im.convert('RGB')
+    im.save("./imagensprocessadas/{}.jpeg".format(nome_sinal.split('.')[0]))
 
-
+    print("pronto")
