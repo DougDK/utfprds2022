@@ -6,7 +6,7 @@ import time
 from PIL import Image
 
 
-def test_cgnr(nome_sinal):
+def teste_cgnr(nome_sinal):
     inicio = time.time()
 
     iniciodeverdade = time.time()

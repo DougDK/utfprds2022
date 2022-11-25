@@ -8,7 +8,10 @@ file_name=file_path.split('/')[-1].split('.')[0]
 
 def enviar_sinal(file_path):
     files = {'sinal': open(file_path,'rb')}
-    post_response = requests.post(url="http://127.0.0.1:5000/reconstrucaosinal", files=files)
+    post_response = requests.post(
+        url="http://127.0.0.1:5000/reconstrucaosinal",
+        files=files,
+        data={"tipo":"CGNE"})
     return post_response
 
 def receber_sinal(file_name):

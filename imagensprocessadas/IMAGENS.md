@@ -1,1 +1,1 @@
-Este folder contem as imagens processadas
+Este folder contem as imagens que foram processadas pelos Workers
