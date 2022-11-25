@@ -13,7 +13,7 @@ def teste_cgnr(nome_sinal):
 
     sinal_g = genfromtxt('sinais/{}'.format(nome_sinal), delimiter=',')
 
-    matriz_h = genfromtxt('H-2.csv', delimiter=',')
+    matriz_h = genfromtxt('modelos/H-2.csv', delimiter=',')
 
     fim = time.time()
     print('import levou', fim - inicio)

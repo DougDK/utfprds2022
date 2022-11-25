@@ -14,7 +14,6 @@ def teste_cgne(nome_sinal):
 
     matriz_h = genfromtxt('modelos/H-2.csv', delimiter=',')
 
-    print(sinal_g.shape)
     fim = time.time()
     print('import levou', fim - inicio)
     inicio = time.time()
@@ -33,9 +32,6 @@ def teste_cgne(nome_sinal):
             sinal_g[i] = sinal_g[i]*gs
             i=i+1
 
-    fim = time.time()
-    print('calculo de ganho levou', fim - inicio)
-    inicio = time.time()
 
     #CGNE
     f = 0
@@ -44,10 +40,6 @@ def teste_cgne(nome_sinal):
     p = np.matmul(Ht,r)
     erro = 1
     i = 0
-
-    fim = time.time()
-    print('primeira iteracao levou', fim - inicio)
-    inicio = time.time()
 
     while np.absolute(erro) > 0.0001:
         rt = np.transpose(r)
