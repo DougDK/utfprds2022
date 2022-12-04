@@ -3,28 +3,34 @@ from matplotlib import pyplot as plt
 from PIL import Image
 from io import BytesIO
 import time
+import os
 
-#file_path='C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/A-60x60-1.csv'
-#file_name=file_path.split('/')[-1].split('.')[0]
 
-def enviar_sinal(file_path, algoritmo):
+def enviar_sinal(file_path, algoritmo, usuario):
     files = {'sinal': open(file_path,'rb')}
     post_response = requests.post(
         url="http://127.0.0.1:5000/reconstrucaosinal",
         files=files,
-        data={"tipo":algoritmo, "usuario":"caraLegal"})
+        data={"tipo":algoritmo, "usuario":usuario})
     return post_response
 
-def receber_sinal(file_name):
-    get_response = requests.get(url="http://127.0.0.1:5000/sinal", json={"nome":file_name})
+def receber_sinal(file_name, usuario):
+    get_response = requests.get(url="http://127.0.0.1:5000/sinal", json={"nome":file_name, "usuario":usuario})
     image = Image.open(BytesIO(get_response.content))
+    image.save("geeks.jpg")
     plt.gray()
     plt.imshow(image)
     plt.show()
 
+def listar_sinais(usuario):
+    get_response = requests.get(url="http://127.0.0.1:5000/listarsinais", json={"usuario":usuario})
+    return get_response.json()["sinais"]
+
 def main():
 
     inicio = time.time()
+
+    usuario = "caraLegal"
 
     file_path_sinal_1='C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/g-30x30-1.csv'
     file_name_sinal_1=file_path_sinal_1.split('/')[-1].split('.')[0]
@@ -52,29 +58,34 @@ def main():
 
     #tempocorrido = time.time()-inicio
 
-    
     #sinais de teste
-    enviar_sinal(file_path_sinal_1, "CGNE")
-    enviar_sinal(file_path_sinal_1, "CGNR")
+    # enviar_sinal(file_path_sinal_1, "CGNE", usuario)
+    # enviar_sinal(file_path_sinal_1, "CGNR", usuario)
 
-    enviar_sinal(file_path_sinal_2, "CGNE")
-    enviar_sinal(file_path_sinal_2, "CGNR")
+    # enviar_sinal(file_path_sinal_2, "CGNE", usuario)
+    # enviar_sinal(file_path_sinal_2, "CGNR", usuario)
 
-    enviar_sinal(file_path_sinal_4, "CGNE")
-    enviar_sinal(file_path_sinal_4, "CGNR")
+    # enviar_sinal(file_path_sinal_4, "CGNE", usuario)
+    # enviar_sinal(file_path_sinal_4, "CGNR", usuario)
 
-    enviar_sinal(file_path_sinal_5, "CGNE")
-    enviar_sinal(file_path_sinal_5, "CGNR")
+    # enviar_sinal(file_path_sinal_5, "CGNE", usuario)
+    # enviar_sinal(file_path_sinal_5, "CGNR", usuario)
 
-        #sinais da prova
-    enviar_sinal(file_path_sinal_3, "CGNE")
-    enviar_sinal(file_path_sinal_3, "CGNR")
+    # #sinais da prova
+    # enviar_sinal(file_path_sinal_3, "CGNE", usuario)
+    # enviar_sinal(file_path_sinal_3, "CGNR", usuario)
 
-    enviar_sinal(file_path_sinal_6, "CGNE")
-    enviar_sinal(file_path_sinal_6, "CGNR")
+    # enviar_sinal(file_path_sinal_6, "CGNE", usuario)
+    # enviar_sinal(file_path_sinal_6, "CGNR", usuario)
 
+
+    #time.sleep(60)
+    sinais = listar_sinais(usuario)
+
+    for sinal in sinais:
+        receber_sinal(sinal, usuario)
         
-
+    
 
 if __name__ == '__main__':
     main()

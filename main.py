@@ -1,5 +1,6 @@
 from flask import Flask, request, send_file
 import pika
+import os
 
 app = Flask(__name__)
 
@@ -18,13 +19,22 @@ def reconstrucaoSinal():
     sinal = request.files['sinal']
     sinal.save('./sinais/{}'.format(sinal.filename))
     if(request.form['tipo']=="CGNE"):
-        channel.basic_publish(exchange='', routing_key='images', body='CGNE/{}'.format(sinal.filename))
+        channel.basic_publish(exchange='', routing_key='images', body='CGNE/{}/{}'.format(request.form["usuario"], sinal.filename))
     elif(request.form['tipo']=="CGNR"):
-        channel.basic_publish(exchange='', routing_key='images', body='CGNR/{}'.format(sinal.filename))
+        channel.basic_publish(exchange='', routing_key='images', body='CGNR/{}/{}'.format(request.form["usuario"], sinal.filename))
     return ""
 
 
 @app.route("/sinal", methods=['GET'])
 def sinal():
-    processed = open('./imagensprocessadas/{}.jpeg'.format(request.json['nome']),'rb')
+    processed = open('./imagensprocessadas/{}/{}'.format(request.json['usuario'], request.json['nome']),'rb')
     return send_file(processed, mimetype = "image/jpeg")
+
+@app.route("/listarsinais", methods=['GET'])
+def listarsinais():
+
+    abs_path = os.path.join("imagensprocessadas", request.json["usuario"])
+
+    sinais = os.listdir(abs_path)
+    print(sinais)
+    return {"sinais":sinais}

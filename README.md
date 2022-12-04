@@ -26,3 +26,5 @@ export FLASK_APP=main
 flask run
 flask --app=main run --no-reload
 ```
+
+http://localhost:15672/

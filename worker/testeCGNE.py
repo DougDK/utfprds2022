@@ -8,7 +8,7 @@ import pandas as pd
 pandas_dataframe_h1 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-1.csv", delimiter=",", header=None)
 pandas_dataframe_h2 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-2.csv", delimiter=",", header=None)
 
-def teste_cgne(nome_sinal):
+def teste_cgne(nome_sinal, usuario):
     inicio = time.time()
 
     iniciodeverdade = time.time()
@@ -90,12 +90,12 @@ def teste_cgne(nome_sinal):
         f_imagem = np.reshape(f, (30, 30))
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}.jpeg".format(fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/{}.jpeg".format(usuario, fim))
     
     if(nome_sinal=="A-60x60-1.csv" or nome_sinal=="G-1.csv" or nome_sinal=="G-2.csv"):
         f_imagem = np.reshape(f, (60, 60))
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}.jpeg".format(fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/{}.jpeg".format(usuario, fim))
 
     print("pronto")

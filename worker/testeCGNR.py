@@ -9,9 +9,7 @@ import pandas as pd
 pandas_dataframe_h1 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-1.csv", delimiter=",", header=None)
 pandas_dataframe_h2 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-2.csv", delimiter=",", header=None)
 
-def teste_cgnr(nome_sinal):
-    inicio = time.time()
-
+def teste_cgnr(nome_sinal, usuario):
     iniciodeverdade = time.time()
 
     sinal_g = genfromtxt('C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/{}'.format(nome_sinal), delimiter=',')
@@ -25,11 +23,6 @@ def teste_cgnr(nome_sinal):
         matriz_h = pandas_dataframe_h2.to_numpy()
         Linha_S = 436
         Coluna_N = 64
-
-    fim = time.time()
-    print('import levou', fim - inicio)
-    inicio = time.time()
-
 
     i = 0
 
@@ -83,8 +76,8 @@ def teste_cgnr(nome_sinal):
         p = np.add(z, beta*p)
 
 
-    print(erro)
-    print(i)
+    print('erro de ',erro)
+    print('iteracoes ',i)
 
     fim = time.time()
     print('tudo levou', fim - iniciodeverdade)
@@ -93,12 +86,12 @@ def teste_cgnr(nome_sinal):
         f_imagem = np.reshape(f, (30, 30))
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}.jpeg".format(fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/{}.jpeg".format(usuario, fim))
     
     if(nome_sinal=="A-60x60-1.csv" or nome_sinal=="G-1.csv" or nome_sinal=="G-2.csv"):
         f_imagem = np.reshape(f, (60, 60))
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}.jpeg".format(fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/{}.jpeg".format(usuario, fim))
 
     print("pronto")

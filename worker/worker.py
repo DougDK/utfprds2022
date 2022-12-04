@@ -11,13 +11,17 @@ def main():
     def callback(ch, method, properties, body):
         print(" [x] Received %r" % body)
         tipo=body.decode("utf-8").split('/')[0]
-        file_name=body.decode("utf-8").split('/')[1]
+        usuario=body.decode("utf-8").split('/')[1]
+        file_name=body.decode("utf-8").split('/')[2]
+        newpath = "C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}".format(usuario)
+        if not os.path.exists(newpath):
+            os.makedirs(newpath)
         if(tipo=="CGNE"):
             print("Processando CGNE")
-            teste_cgne(file_name)
+            teste_cgne(file_name, usuario)
         elif(tipo=="CGNR"):
             print("Processando CGNR")
-            teste_cgnr(file_name)
+            teste_cgnr(file_name, usuario)
         print(' [*] Waiting for messages. To exit press CTRL+C')
         return        
 
