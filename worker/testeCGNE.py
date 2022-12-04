@@ -5,6 +5,9 @@ import time
 from PIL import Image
 import pandas as pd
 
+pandas_dataframe_h1 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-1.csv", delimiter=",", header=None)
+pandas_dataframe_h2 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-2.csv", delimiter=",", header=None)
+
 def teste_cgne(nome_sinal):
     inicio = time.time()
 
@@ -13,16 +16,12 @@ def teste_cgne(nome_sinal):
     sinal_g = genfromtxt('C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/{}'.format(nome_sinal), delimiter=',')
 
     if(nome_sinal=="A-60x60-1.csv" or nome_sinal=="G-1.csv" or nome_sinal=="G-2.csv"):
-        #matriz_h = genfromtxt('C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-1.csv', delimiter=',')
-        pandas_dataframe = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-1.csv", delimiter=",", header=None)
-        matriz_h = pandas_dataframe.to_numpy()
+        matriz_h = pandas_dataframe_h1.to_numpy()
         Linha_S = 794
         Coluna_N = 64
 
     if(nome_sinal=="A-30x30-1.csv" or nome_sinal=="g-30x30-1.csv" or nome_sinal=="g-30x30-2.csv"):
-        #matriz_h = genfromtxt('C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-2.csv', delimiter=',')
-        pandas_dataframe = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-2.csv", delimiter=",", header=None)
-        matriz_h = pandas_dataframe.to_numpy()
+        matriz_h = pandas_dataframe_h2.to_numpy()
         Linha_S = 436
         Coluna_N = 64
 

@@ -2,6 +2,7 @@ import requests
 from matplotlib import pyplot as plt
 from PIL import Image
 from io import BytesIO
+import time
 
 #file_path='C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/A-60x60-1.csv'
 #file_name=file_path.split('/')[-1].split('.')[0]
@@ -11,7 +12,7 @@ def enviar_sinal(file_path, algoritmo):
     post_response = requests.post(
         url="http://127.0.0.1:5000/reconstrucaosinal",
         files=files,
-        data={"tipo":algoritmo})
+        data={"tipo":algoritmo, "usuario":"caraLegal"})
     return post_response
 
 def receber_sinal(file_name):
@@ -22,6 +23,8 @@ def receber_sinal(file_name):
     plt.show()
 
 def main():
+
+    inicio = time.time()
 
     file_path_sinal_1='C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/g-30x30-1.csv'
     file_name_sinal_1=file_path_sinal_1.split('/')[-1].split('.')[0]
@@ -41,6 +44,15 @@ def main():
     file_path_sinal_6='C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/A-60x60-1.csv'
     file_name_sinal_6=file_path_sinal_6.split('/')[-1].split('.')[0]
 
+    inicio = time.time()
+
+    #tempocorrido = 0
+
+    #while tempocorrido<300:
+
+    #tempocorrido = time.time()-inicio
+
+    
     #sinais de teste
     enviar_sinal(file_path_sinal_1, "CGNE")
     enviar_sinal(file_path_sinal_1, "CGNR")
@@ -54,12 +66,14 @@ def main():
     enviar_sinal(file_path_sinal_5, "CGNE")
     enviar_sinal(file_path_sinal_5, "CGNR")
 
-    #sinais da prova
+        #sinais da prova
     enviar_sinal(file_path_sinal_3, "CGNE")
     enviar_sinal(file_path_sinal_3, "CGNR")
 
     enviar_sinal(file_path_sinal_6, "CGNE")
     enviar_sinal(file_path_sinal_6, "CGNR")
+
+        
 
 
 if __name__ == '__main__':
