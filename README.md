@@ -24,4 +24,5 @@ pip install -r requirements.txt
 export FLASK_DEBUG=True
 export FLASK_APP=main
 flask run
+flask --app=main run
 ```

@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 from numpy import genfromtxt
 import time
 from PIL import Image
+import pandas as pd
 
 
 def teste_cgnr(nome_sinal):
@@ -11,16 +12,27 @@ def teste_cgnr(nome_sinal):
 
     iniciodeverdade = time.time()
 
-    sinal_g = genfromtxt('sinais/{}'.format(nome_sinal), delimiter=',')
+    sinal_g = genfromtxt('C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/{}'.format(nome_sinal), delimiter=',')
 
-    matriz_h = genfromtxt('modelos/H-2.csv', delimiter=',')
+    if(nome_sinal=="A-60x60-1.csv" or nome_sinal=="G-1.csv" or nome_sinal=="G-2.csv"):
+        #matriz_h = genfromtxt('C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-1.csv', delimiter=',')
+        pandas_dataframe = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-1.csv", delimiter=",", header=None)
+        matriz_h = pandas_dataframe.to_numpy()
+        Linha_S = 794
+        Coluna_N = 64
+
+    if(nome_sinal=="A-30x30-1.csv" or nome_sinal=="g-30x30-1.csv" or nome_sinal=="g-30x30-2.csv"):
+        #matriz_h = genfromtxt('C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-2.csv', delimiter=',')
+        pandas_dataframe = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-2.csv", delimiter=",", header=None)
+        matriz_h = pandas_dataframe.to_numpy()
+        Linha_S = 436
+        Coluna_N = 64
 
     fim = time.time()
     print('import levou', fim - inicio)
     inicio = time.time()
 
-    Linha_S = 436
-    Coluna_N = 64
+
     i = 0
 
     s = 1
@@ -33,7 +45,6 @@ def teste_cgnr(nome_sinal):
             sinal_g[i] = sinal_g[i]*gs
             i=i+1
             
-    print(i)
     #CGNR
     f = 0
     r = sinal_g
@@ -44,16 +55,17 @@ def teste_cgnr(nome_sinal):
     i = 0
 
 
-    while np.absolute(erro) > 0.0001:
+    while (np.absolute(erro) > 0.0001 and i<30):
+        i=i+1
         w = np.matmul(matriz_h, p)
         norma_z = np.linalg.norm(z)
         norma_w = np.linalg.norm(w)
         fator_alfa = np.power(norma_z, 2)
         denominador_alfa = np.power(norma_w, 2)
         alfa = np.divide(fator_alfa, denominador_alfa)
-        ap = np.dot(alfa, p)
+        ap = alfa*p
         f = np.add(f, ap)
-        aw = np.dot(alfa, w)
+        aw = alfa*w
         r_anterior = r
         r = np.subtract(r, aw)
 
@@ -70,15 +82,25 @@ def teste_cgnr(nome_sinal):
 
 
         #calculo dos elementos que efetuam a soma que resultam em Pi+1
-        p = np.add(z, np.dot(beta, p))
-        print(erro)
+        p = np.add(z, beta*p)
+
+
+    print(erro)
+    print(i)
 
     fim = time.time()
     print('tudo levou', fim - iniciodeverdade)
-
-    f_imagem = np.reshape(f, (30, 30))
-    im = Image.fromarray(f_imagem)
-    im = im.convert('RGB')
-    im.save("./imagensprocessadas/{}.jpeg".format(nome_sinal.split('.')[0]))
+    fim = fim - iniciodeverdade
+    if(nome_sinal=="A-30x30-1.csv" or nome_sinal=="g-30x30-1.csv" or nome_sinal=="g-30x30-2.csv"):
+        f_imagem = np.reshape(f, (30, 30))
+        im = Image.fromarray(f_imagem)
+        im = im.convert('RGB')
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}.jpeg".format(fim))
     
+    if(nome_sinal=="A-60x60-1.csv" or nome_sinal=="G-1.csv" or nome_sinal=="G-2.csv"):
+        f_imagem = np.reshape(f, (60, 60))
+        im = Image.fromarray(f_imagem)
+        im = im.convert('RGB')
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}.jpeg".format(fim))
+
     print("pronto")
