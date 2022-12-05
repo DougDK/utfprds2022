@@ -4,6 +4,7 @@ from PIL import Image
 from io import BytesIO
 import time
 import os
+import random
 
 
 def enviar_sinal(file_path, algoritmo, usuario):
@@ -28,10 +29,6 @@ def listar_sinais(usuario):
 
 def main():
 
-    inicio = time.time()
-
-    usuario = "caraLegal"
-
     file_path_sinal_1='C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/g-30x30-1.csv'
     file_name_sinal_1=file_path_sinal_1.split('/')[-1].split('.')[0]
 
@@ -50,40 +47,65 @@ def main():
     file_path_sinal_6='C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/sinais/A-60x60-1.csv'
     file_name_sinal_6=file_path_sinal_6.split('/')[-1].split('.')[0]
 
+    usuario = "caraLegal"
+
     inicio = time.time()
 
-    #tempocorrido = 0
+    intervaloDeTempoMin = 2
+    intervaloDeTempoMax = 6
 
-    #while tempocorrido<300:
+    tempocorrido = 0
 
-    #tempocorrido = time.time()-inicio
+    while tempocorrido<60:
 
-    #sinais de teste
-    # enviar_sinal(file_path_sinal_1, "CGNE", usuario)
-    # enviar_sinal(file_path_sinal_1, "CGNR", usuario)
+        tempodeespera = random.randint(intervaloDeTempoMin,intervaloDeTempoMax)
 
-    # enviar_sinal(file_path_sinal_2, "CGNE", usuario)
-    # enviar_sinal(file_path_sinal_2, "CGNR", usuario)
+        algoritmoparausar = random.randint(1,2)
 
-    # enviar_sinal(file_path_sinal_4, "CGNE", usuario)
-    # enviar_sinal(file_path_sinal_4, "CGNR", usuario)
+        match algoritmoparausar:
+            case 1:
+                algoritmo = "CGNE"
 
-    # enviar_sinal(file_path_sinal_5, "CGNE", usuario)
-    # enviar_sinal(file_path_sinal_5, "CGNR", usuario)
+            case 2:
+                algoritmo = "CGNR"
 
-    # #sinais da prova
-    # enviar_sinal(file_path_sinal_3, "CGNE", usuario)
-    # enviar_sinal(file_path_sinal_3, "CGNR", usuario)
+        sinalparaenviar = random.randint(1,6)
 
-    # enviar_sinal(file_path_sinal_6, "CGNE", usuario)
-    # enviar_sinal(file_path_sinal_6, "CGNR", usuario)
+        match sinalparaenviar:
+            case 1:
+                enviar_sinal(file_path_sinal_1, algoritmo, usuario)
+                print("Algoritmo: ", algoritmo, "Sinal: ", file_name_sinal_1)
+            case 2:
+                enviar_sinal(file_path_sinal_2, algoritmo, usuario)
+                print("Algoritmo: ", algoritmo, "Sinal: ", file_name_sinal_2)
+            case 3:
+                enviar_sinal(file_path_sinal_3, algoritmo, usuario)
+                print("Algoritmo: ", algoritmo, "Sinal: ", file_name_sinal_3)
+            case 4:
+                enviar_sinal(file_path_sinal_4, algoritmo, usuario)
+                print("Algoritmo: ", algoritmo, "Sinal: ", file_name_sinal_4)
+            case 5:
+                enviar_sinal(file_path_sinal_5, algoritmo, usuario)
+                print("Algoritmo: ", algoritmo, "Sinal: ", file_name_sinal_5)
+            case 6:
+                enviar_sinal(file_path_sinal_6, algoritmo, usuario)
+                print("Algoritmo: ", algoritmo, "Sinal: ", file_name_sinal_6)
+
+        print("Espera de ", tempodeespera, " segundos")
+
+        time.sleep(tempodeespera)
+
+        tempocorrido = time.time()-inicio
+        print("Duracao do teste:", tempocorrido)
 
 
-    #time.sleep(60)
+    time.sleep(10)
     sinais = listar_sinais(usuario)
 
-    for sinal in sinais:
-        receber_sinal(sinal, usuario)
+    print(sinais)
+
+    #for sinal in sinais:
+    #    receber_sinal(sinal, usuario)
         
     
 

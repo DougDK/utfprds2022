@@ -5,6 +5,7 @@ from numpy import genfromtxt
 import time
 from PIL import Image
 import pandas as pd
+import cv2
 
 pandas_dataframe_h1 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-1.csv", delimiter=",", header=None)
 pandas_dataframe_h2 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-2.csv", delimiter=",", header=None)
@@ -75,23 +76,21 @@ def teste_cgnr(nome_sinal, usuario):
         #calculo dos elementos que efetuam a soma que resultam em Pi+1
         p = np.add(z, beta*p)
 
-
-    print('erro de ',erro)
-    print('iteracoes ',i)
-
     fim = time.time()
     print('tudo levou', fim - iniciodeverdade)
     fim = fim - iniciodeverdade
     if(nome_sinal=="A-30x30-1.csv" or nome_sinal=="g-30x30-1.csv" or nome_sinal=="g-30x30-2.csv"):
         f_imagem = np.reshape(f, (30, 30))
+        cv2.normalize(f_imagem, f_imagem, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_64F)
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/{}.jpeg".format(usuario, fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/CGNR{}.jpeg".format(usuario, fim))
     
     if(nome_sinal=="A-60x60-1.csv" or nome_sinal=="G-1.csv" or nome_sinal=="G-2.csv"):
         f_imagem = np.reshape(f, (60, 60))
+        cv2.normalize(f_imagem, f_imagem, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_64F)
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/{}.jpeg".format(usuario, fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/CGNR{}.jpeg".format(usuario, fim))
 
     print("pronto")

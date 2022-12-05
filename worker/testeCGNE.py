@@ -4,6 +4,7 @@ from numpy import genfromtxt
 import time
 from PIL import Image
 import pandas as pd
+import cv2
 
 pandas_dataframe_h1 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-1.csv", delimiter=",", header=None)
 pandas_dataframe_h2 = pd.read_csv("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/modelos/H-2.csv", delimiter=",", header=None)
@@ -50,7 +51,7 @@ def teste_cgne(nome_sinal, usuario):
     erro = 1
     i = 0
 
-    while (np.absolute(erro) > 0.0001) and (i<30):
+    while (np.absolute(erro) > 0.0001) and (i<5):
         i = i+1
         rt = np.transpose(r)
         pt = np.transpose(p)
@@ -78,24 +79,22 @@ def teste_cgne(nome_sinal, usuario):
 
         #calculo do erro
         erro = np.subtract(np.linalg.norm(r), np.linalg.norm(r_anterior))
-        
-        
-    print(erro)
-    print(i)
 
     fim = time.time()
     print('tudo levou', fim - iniciodeverdade)
     fim = fim - iniciodeverdade
     if(nome_sinal=="A-30x30-1.csv" or nome_sinal=="g-30x30-1.csv" or nome_sinal=="g-30x30-2.csv"):
         f_imagem = np.reshape(f, (30, 30))
+        cv2.normalize(f_imagem, f_imagem, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_64F)
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/{}.jpeg".format(usuario, fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/CGNE{}.jpeg".format(usuario, fim))
     
     if(nome_sinal=="A-60x60-1.csv" or nome_sinal=="G-1.csv" or nome_sinal=="G-2.csv"):
         f_imagem = np.reshape(f, (60, 60))
+        cv2.normalize(f_imagem, f_imagem, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_64F)        
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/{}.jpeg".format(usuario, fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/CGNE{}.jpeg".format(usuario, fim))
 
     print("pronto")
