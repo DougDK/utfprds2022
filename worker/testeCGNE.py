@@ -3,6 +3,7 @@ import math
 from numpy import genfromtxt
 import time
 from PIL import Image
+from PIL.PngImagePlugin import PngImageFile, PngInfo
 import pandas as pd
 import cv2
 
@@ -88,13 +89,13 @@ def teste_cgne(nome_sinal, usuario):
         cv2.normalize(f_imagem, f_imagem, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_64F)
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/CGNE{}.jpeg".format(usuario, fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/Algoritmo-CGNRTmpExec-{}Iteracoes-{}.jpeg".format(usuario, fim, i))
     
     if(nome_sinal=="A-60x60-1.csv" or nome_sinal=="G-1.csv" or nome_sinal=="G-2.csv"):
         f_imagem = np.reshape(f, (60, 60))
         cv2.normalize(f_imagem, f_imagem, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_64F)        
         im = Image.fromarray(f_imagem)
         im = im.convert('RGB')
-        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/CGNE{}.jpeg".format(usuario, fim))
+        im.save("C:/Users/lucas/OneDrive/Documentos/GitHub/utfprds2022/imagensprocessadas/{}/Algoritmo-CGNRTmpExec-{}Iteracoes-{}.jpeg".format(usuario, fim, i))
 
     print("pronto")
